@@ -1,0 +1,26 @@
+from collections import deque
+
+def shortest_path(source, target):
+    # Initialize a queue for breadth-first search
+    queue = deque()
+    # Enqueue the source person with an empty path
+    queue.append((source, []))
+    # Create a set to keep track of visited people
+    visited = set()
+    # Iterate until the queue is empty
+    while queue:
+        # Dequeue a person and their path
+        person, path = queue.popleft()
+        # Check if the person is the target
+        if person == target:
+            return path
+        # Mark the person as visited
+        visited.add(person)
+        # Find the neighbors of the current person
+        neighbors = neighbors_for_person(person)
+        # Enqueue each neighbor with an extended path
+        for movie_id, neighbor in neighbors:
+            if neighbor not in visited:
+                queue.append((neighbor, path + [(movie_id, neighbor)]))
+    # If no path is found, return None
+    return None
